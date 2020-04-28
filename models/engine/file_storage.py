@@ -79,5 +79,5 @@ class FileStorage:
             return None
 
     def count(self, cls=None):
-        """ Counts the number of bjects """
+        
         return len(self.all(cls))
