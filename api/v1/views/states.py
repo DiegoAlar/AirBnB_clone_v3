@@ -5,7 +5,14 @@ from models import storage
 from api.v1.views.__init__ import app_views
 from api.v1.app import app
 
-
-@app.route('/python', strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def hello_route4(text='is cool'):
+@app.route('/states', methods=['GET', 'POST'])
+@app.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT')
+def state_objs(state_id=None):
+    """Retrieves all states or and specific state"""
+    if state_id:
+        key = "state" + id
+        obj = objs.get(key)
+        if request.method == 'GET'
+           if obj:
+           return json(obj)
+           else:
