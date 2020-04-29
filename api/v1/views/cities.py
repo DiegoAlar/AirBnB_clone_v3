@@ -9,7 +9,7 @@ from models.state import State
 from models.city import City
 
 
-mets = ['GET', 'POST']
+me = ['GET', 'POST']
 mets_id = ['GET', 'DELETE', 'PUT']
 
 
@@ -52,7 +52,8 @@ def cities_routes(city_id=None):
             cities_list.append(obj.to_dict())
         return jsonify(cities_list)
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=mets)
+
+@app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=me)
 def cities_routes2(state_id=None):
     """ return city objects """
     objs = storage.all('State')

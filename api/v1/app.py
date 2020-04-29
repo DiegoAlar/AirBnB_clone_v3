@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Status of your API"""
-from flask import Flask, make_response, jsonify, render_template
+from flask import Flask, make_response, jsonify, Blueprint
 from models import storage
 from api.v1.views import app_views
 from os import getenv
