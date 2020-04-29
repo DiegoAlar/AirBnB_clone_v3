@@ -33,8 +33,11 @@ def places_routes(place_id=None):
             if not request.get_json():
                 return ('Not a JSON'), 400
             data = request.get_json()
+            attrs = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
             for k, v in data.items():
-                setattr(obj, k, v)
+                # ignore id, user_id, city_id, created_at and updated_a
+                if k not in attrs:
+                    setattr(obj, k, v)
             storage.save()
             return make_response(jsonify(obj.to_dict()), 200)
     else:

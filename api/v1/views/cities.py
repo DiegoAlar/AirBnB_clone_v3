@@ -33,7 +33,9 @@ def cities_routes(city_id=None):
                 return ('Not a JSON'), 400
             data = request.get_json()
             for k, v in data.items():
-                setattr(obj, k, v)
+                # ignore id, state_id, created_at and updated_at
+                if k not in ['id', 'state_id', 'created_at', 'updated_at']:
+                    setattr(obj, k, v)
             storage.save()
             return make_response(jsonify(obj.to_dict()), 200)
     else:
