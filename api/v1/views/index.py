@@ -8,7 +8,7 @@ from flask import Flask, jsonify, Blueprint
 from models import storage
 
 
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def status():
     """ show status """
     status = {
@@ -17,7 +17,7 @@ def status():
     return jsonify(status)
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', strict_slashes=False)
 def stats():
     """ Show stats """
     stats = {
