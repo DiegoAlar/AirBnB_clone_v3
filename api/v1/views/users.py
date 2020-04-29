@@ -3,8 +3,8 @@
 from flask import jsonify, make_response, request, abort
 from models import storage
 from api.v1.views import app_views
-from models import State
-from models import User
+from models.state import State
+from models.user import User
 
 
 @app_views.route('/users', strict_slashes=False, methods=['GET'])
