@@ -43,7 +43,7 @@ def cities_routes(city_id=None):
             data = request.get_json()
             if not data['name']:
                 return ('Missing name'), 400
-            new_city = State(**data)
+            new_city = City(**data)
             storage.new(new_city)
             storage.save()
             return make_response(jsonify(new_city.to_dict()), 201)
