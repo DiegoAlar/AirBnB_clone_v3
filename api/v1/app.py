@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """Status of your API"""
-from os import getenv
-from flask import Flask, jsonify, Blueprint, make_response
+from flask import Flask, make_response, jsonify, render_template
 from models import storage
 from api.v1.views import app_views
+from os import getenv
 
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def teardown_app_context(self):
 @app.errorhandler(404)
 def not_found(error):
     """not found"""
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":

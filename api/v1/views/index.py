@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """ index file
 """
+from flask import Flask, jsonify
 from api.v1.views import app_views
-from flask import Flask, jsonify, Blueprint
 from models import storage
 
 
