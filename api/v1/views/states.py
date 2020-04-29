@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""State"""
 from os import getenv
 from flask import Flask, jsonify, Blueprint, make_response, request, abort
 from models import storage
@@ -9,9 +10,12 @@ from models.state import State
 
 mets = ['GET', 'POST']
 mets_id = ['GET', 'DELETE', 'PUT']
+
+
 @app_views.route('/states', strict_slashes=False, methods=mets)
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=mets_id)
 def states_routes(state_id=None):
+    """States_routes"""
     objs = storage.all('State')
     if state_id:
         key = "State." + state_id
