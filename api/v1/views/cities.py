@@ -66,8 +66,8 @@ def cities_routes2(state_id=None):
         if request.method == 'GET':
             cities_list = []
             for city in objs_cities.values():
-                if city.state_id == obj.state_id:
-                    cities_list.append(obj.to_dict())
+                if city.state_id == state_id:
+                    cities_list.append(city.to_dict())
             return jsonify(cities_list)
         elif request.method == 'POST':
             if not request.get_json():
