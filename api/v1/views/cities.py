@@ -30,10 +30,9 @@ def cities_routes(city_id=None):
             return make_response(jsonify({}), 200)
         elif request.method == 'PUT':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             for k, v in data.items():
-                # ignore id, state_id, created_at and updated_at
                 if k not in ['id', 'state_id', 'created_at', 'updated_at']:
                     setattr(obj, k, v)
             storage.save()
@@ -41,10 +40,10 @@ def cities_routes(city_id=None):
     else:
         if request.method == 'POST':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
-            if not data['name']:
-                return ('Missing name'), 400
+            if 'name' not in data.keys():
+                return jsonify({"error": "Missing name"}), 400
             new_city = City(**data)
             storage.new(new_city)
             storage.save()
@@ -73,10 +72,10 @@ def cities_routes2(state_id=None):
             return jsonify(cities_list)
         elif request.method == 'POST':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
-            if not data['name']:
-                return ('Missing name'), 400
+            if 'name' not in data.keys():
+                return jsonify({"error": "Missing name"}), 400
             data['state_id'] = state_id
             new_city = City(**data)
             storage.new(new_city)

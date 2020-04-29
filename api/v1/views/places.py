@@ -31,11 +31,10 @@ def places_routes(place_id=None):
             return make_response(jsonify({}), 200)
         elif request.method == 'PUT':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             attrs = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
             for k, v in data.items():
-                # ignore id, user_id, city_id, created_at and updated_a
                 if k not in attrs:
                     setattr(obj, k, v)
             storage.save()
@@ -43,10 +42,10 @@ def places_routes(place_id=None):
     else:
         if request.method == 'POST':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
-            if not data['name']:
-                return ('Missing name'), 400
+            if 'name' not in data.keys():
+                return jsonify({"error": "Missing name"}), 400
             new_place = Place(**data)
             storage.new(new_place)
             storage.save()
@@ -76,16 +75,16 @@ def places_routes2(city_id=None):
             return jsonify(all_places)
         elif request.method == 'POST':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
-            if not data['user_id']:
-                return ('Missing user_id'), 400
+            if 'user_id' not in data.keys():
+                return jsonify({"error": "Missing user_id"}), 400
             key_usr = "User." + data['user_id']
             obj_user = objs_users.get(key_usr)
             if obj_user is None:
                 abort(404)
-            if not data['name']:
-                return ('Missing name'), 400
+            if 'name' not in data.keys():
+                return jsonify({"error": "Missing name"}), 400
             data['city_id'] = city_id
             new_place = Place(**data)
             storage.new(new_place)

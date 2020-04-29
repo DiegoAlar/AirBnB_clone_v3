@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Status of your API"""
+""" Status of your API """
+
+
 from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
@@ -19,7 +21,7 @@ def teardown_app_context(self):
 
 @app.errorhandler(404)
 def not_found(error):
-    """not found"""
+    """ not found """
     return make_response(jsonify({"error": "Not found"}), 404)
 
 

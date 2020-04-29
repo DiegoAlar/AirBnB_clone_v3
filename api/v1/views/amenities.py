@@ -32,7 +32,6 @@ def amenities_routes(amenity_id=None):
                 return ('Not a JSON'), 400
             data = request.get_json()
             for k, v in data.items():
-                # ignore id, created_at and updated_at
                 if k not in ['id', 'created_at', 'updated_at']:
                     setattr(obj, k, v)
             storage.save()
@@ -42,7 +41,7 @@ def amenities_routes(amenity_id=None):
             if not request.get_json():
                 return ('Not a JSON'), 400
             data = request.get_json()
-            if not data['name']:
+            if 'name' not in data.keys():
                 return ('Missing name'), 400
             new_amenity = Amenity(**data)
             storage.new(new_amenity)
