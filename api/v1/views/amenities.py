@@ -1,24 +1,23 @@
 #!/usr/bin/python3
-"""State"""
+""" Amenity """
 from os import getenv
 from flask import Flask, jsonify, Blueprint, make_response, request, abort
 from models import storage
 from api.v1.views import app_views
 from api.v1 import app
-from models.state import State
+from models.amenity import Amenity
+
+ms1 = ['GET', 'POST']
+ms2 = ['GET', 'DELETE', 'PUT']
 
 
-mets = ['GET', 'POST']
-mets_id = ['GET', 'DELETE', 'PUT']
-
-
-@app_views.route('/states', strict_slashes=False, methods=mets)
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=mets_id)
-def states_routes(state_id=None):
-    """States_routes"""
-    objs = storage.all('State')
-    if state_id:
-        key = "State." + state_id
+@app_views.route('/amenities', strict_slashes=False, methods=ms1)
+@app_views.route('/amenities/<amenity_id>', strict_slashes=False, methods=ms2)
+def amenities_routes(amenity_id=None):
+    """Amenities_routes"""
+    objs = storage.all('Amenity')
+    if amenity_id:
+        key = "Amenity." + amenity_id
         obj = objs.get(key)
         if obj is None:
             abort(404)
@@ -43,11 +42,11 @@ def states_routes(state_id=None):
             data = request.get_json()
             if not data['name']:
                 return ('Missing name'), 400
-            new_state = State(**data)
-            storage.new(new_state)
+            new_amenity = Amenity(**data)
+            storage.new(new_amenity)
             storage.save()
-            return make_response(jsonify(new_state.to_dict()), 201)
-        states_list = []
+            return make_response(jsonify(new_amenity.to_dict()), 201)
+        amenities_list = []
         for obj in objs.values():
-            states_list.append(obj.to_dict())
-        return jsonify(states_list)
+            amenities_list.append(obj.to_dict())
+        return jsonify(amenities_list)
