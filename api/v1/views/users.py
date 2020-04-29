@@ -28,30 +28,35 @@ def user_by_ID(user_id):
 @app_views.route('/users/<user_id>', strict_slashes=False, methods=['DELETE'])
 def delete_user(user_id):
     """deletes by user_id"""
-    a_user = storage.get("User", user_id)
-    if a_user is None:
-        return abort(404)
-    storage.delete(a_user)
-    storage.save()
-    return make_response(jsonify({}), 200)
+    try:
+        a_user = storage.get('User', user_id)
+        if a_user is None:
+            abort(404)
+        a_user.delete()
+        storage.save()
+        return jsonify({}), 200
+    except Exception:
+        abort(404)
 
 
 @app_views.route('/users/<user_id>', strict_slashes=False, methods=['POST'])
 def new_user():
     """creates a new user"""
-    request_data = request.get_json()
-    if request_data is None:
-        abort(400, 'Not a JSON')
-    email = request_data.get('email')
-    if email is None:
-        abort(400, 'Missing email')
-    password = request_data.get("password")
-    if password is None:
-        abort(400, 'Missing password')
-    New_user = User(**request_data)
-    New_user.save()
-
-    return jsonify(New_user.to_dict()), 201
+    if not request.json:
+        return jsonify({"error": "Not a JSON"}), 400
+    u_dict = request.get_json()
+    if "email" not in u_dict:
+        return jsonify({"error": "Missing email"}), 400
+    if "password" not in u_dict:
+        return jsonify({"error": "Missing password"}), 400
+    else:
+        user_email = u_dict["email"]
+        user_password = u_dict["password"]
+        user = User(email=user_email, password=user_password)
+        for key, value in u_dict.items():
+            setattr(user, key, value)
+        user.save()
+        return jsonify(user.to_dict()), 201
 
 
 @app_views.route('/users/<user_id>', strict_slashes=False, methods=['PUT'])
@@ -68,4 +73,4 @@ def Update_user(user_id):
         if k not in keys_to_ignore:
             setattr(u_user, k, v)
     u_user.save()
-    return jsonify(user.to_dict()), 200
+    return jsonify(u_user.to_dict()), 200
