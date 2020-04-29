@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-""" init file
-"""
 from flask import Flask, Blueprint
 
 
