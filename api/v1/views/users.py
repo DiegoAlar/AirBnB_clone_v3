@@ -4,7 +4,7 @@ from flask import jsonify, make_response, request, abort
 from models import storage
 from api.v1.views import app_views
 from models.state import State
-from models.user import Users
+from models.user import User
 from models.base_model import BaseModel
 
 
