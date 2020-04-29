@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """ init file
 """
-
-
-from flask import Flask, jsonify, Blueprint
+from flask import Flask, Blueprint
 
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')

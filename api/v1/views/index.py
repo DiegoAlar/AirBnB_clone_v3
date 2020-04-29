@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """ index file
 """
-
-
 from api.v1.views import app_views
 from flask import Flask, jsonify, Blueprint
 from models import storage
@@ -11,10 +9,7 @@ from models import storage
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """ show status """
-    status = {
-            'status': 'OK'
-        }
-    return jsonify(status)
+    return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
