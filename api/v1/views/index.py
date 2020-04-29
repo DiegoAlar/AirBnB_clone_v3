@@ -1,6 +1,8 @@
 #!/usr/bin/python3
-""" index file
+""" Index file
 """
+
+
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage

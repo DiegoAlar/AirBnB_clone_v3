@@ -30,10 +30,9 @@ def states_routes(state_id=None):
             return make_response(jsonify({}), 200)
         elif request.method == 'PUT':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             for k, v in data.items():
-                # ignore id, created_at and updated_at
                 if k not in ['created_at', 'updated_at']:
                     setattr(obj, k, v)
             storage.save()
@@ -43,8 +42,8 @@ def states_routes(state_id=None):
             if not request.get_json():
                 return ('Not a JSON'), 400
             data = request.get_json()
-            if not data['name']:
-                return ('Missing name'), 400
+            if 'name' not in data.keys():
+                return jsonify({"error": "Missing name"}), 400
             new_state = State(**data)
             storage.new(new_state)
             storage.save()
