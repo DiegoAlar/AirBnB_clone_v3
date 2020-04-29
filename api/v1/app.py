@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Status of your API"""
 from os import getenv
 from flask import Flask, jsonify, Blueprint, make_response
 from models import storage
@@ -14,11 +15,13 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_request(self):
+    """teardown"""
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(error):
+    """not found"""
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
