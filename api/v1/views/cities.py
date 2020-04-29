@@ -57,6 +57,7 @@ def cities_routes(city_id=None):
 def cities_routes2(state_id=None):
     """ return city objects """
     objs = storage.all('State')
+    objs_cities = storage.all('City')
     if state_id:
         key = "State." + state_id
         obj = objs.get(key)
@@ -64,8 +65,8 @@ def cities_routes2(state_id=None):
             abort(404)
         if request.method == 'GET':
             cities_list = []
-            for obj in objs.values():
-                if obj.state_id == state_id:
+            for city in objs_cities.values():
+                if city.state_id == state_id:
                     cities_list.append(obj.to_dict())
             return jsonify(cities_list)
         elif request.method == 'POST':
