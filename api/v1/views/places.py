@@ -41,7 +41,9 @@ def places_routes(place_id=None):
             return make_response(jsonify(obj.to_dict()), 200)
     else:
         if request.method == 'POST':
-            if not request.get_json():
+            try:
+                request.get_json()
+            except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             if 'name' not in data.keys():
@@ -74,7 +76,9 @@ def places_routes2(city_id=None):
                     all_places.append(place.to_dict())
             return jsonify(all_places)
         elif request.method == 'POST':
-            if not request.get_json():
+            try:
+                request.get_json()
+            except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             if 'user_id' not in data.keys():
