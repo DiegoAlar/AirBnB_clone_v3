@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-""" Status of your API """
-
+"""Status of your API"""
 from api.v1.views import app_views
 from flask import Flask, make_response, jsonify
 from models import storage
@@ -32,4 +31,4 @@ if __name__ == "__main__":
         host = getenv('HBNB_API_HOST')
     if getenv('HBNB_API_PORT'):
         port = getenv('HBNB_API_PORT')
-    app.run(host=host, port=port, threaded=True)
+    app.run(debug=True, host=host, port=port, threaded=True)
