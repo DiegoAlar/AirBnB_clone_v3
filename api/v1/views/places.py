@@ -70,9 +70,11 @@ def places_routes2(city_id=None):
         if obj is None:
             abort(404)
         if request.method == 'GET':
-            for place in objs_places.values():
-                if place.city_id == city_id:
-                    all_places.append(place.to_dict())
+            # for place in objs_places.values():
+            #     if place.city_id == city_id:
+            #         all_places.append(place.to_dict())
+            for plc in obj.places:
+                all_places.append(plc.to_dict())
             return jsonify(all_places)
         elif request.method == 'POST':
             try:
