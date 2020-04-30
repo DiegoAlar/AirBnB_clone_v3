@@ -29,7 +29,9 @@ def places_routes(place_id=None):
             storage.save()
             return make_response(jsonify({}), 200)
         elif request.method == 'PUT':
-            if not request.get_json():
+            try:
+                request.get_json()
+            except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             attrs = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
@@ -70,9 +72,6 @@ def places_routes2(city_id=None):
         if obj is None:
             abort(404)
         if request.method == 'GET':
-            # for place in objs_places.values():
-            #     if place.city_id == city_id:
-            #         all_places.append(place.to_dict())
             for plc in obj.places:
                 all_places.append(plc.to_dict())
             return jsonify(all_places)
