@@ -4,7 +4,6 @@ from os import getenv
 from flask import Flask, jsonify, Blueprint, make_response, request, abort
 from models import storage
 from api.v1.views import app_views
-from api.v1 import app
 from models.state import State
 from models.user import User
 ms1 = ['GET', 'POST']
