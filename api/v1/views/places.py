@@ -40,23 +40,6 @@ def places_routes(place_id=None):
                     setattr(obj, k, v)
             storage.save()
             return make_response(jsonify(obj.to_dict()), 200)
-    else:
-        if request.method == 'POST':
-            try:
-                request.get_json()
-            except Exception:
-                return jsonify({"error": "Not a JSON"}), 400
-            data = request.get_json()
-            if 'name' not in data.keys():
-                return jsonify({"error": "Missing name"}), 400
-            new_place = Place(**data)
-            storage.new(new_place)
-            storage.save()
-            return make_response(jsonify(new_place.to_dict()), 201)
-        places_list = []
-        for obj in objs.values():
-            places_list.append(obj.to_dict())
-        return jsonify(places_list)
 
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False, methods=me)
