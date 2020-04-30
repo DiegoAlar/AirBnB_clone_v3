@@ -29,7 +29,7 @@ def users_routes(user_id=None):
             return make_response(jsonify({}), 200)
         elif request.method == 'PUT':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             for k, v in data.items():
                 if k not in ['id', 'email', 'created_at', 'updated_at']:
@@ -39,12 +39,12 @@ def users_routes(user_id=None):
     else:
         if request.method == 'POST':
             if not request.get_json():
-                return ('Not a JSON'), 400
+                return jsonify({"error": "Not a JSON"}), 400
             data = request.get_json()
             if 'email' not in data.keys():
-                return ('Missing email'), 400
+                return jsonify({"error": "Missing email"}), 400
             if 'password' not in data.keys():
-                return ('Missing password'), 400
+                return jsonify({"error": "Missing password"}), 400
             new_user = User(**data)
             storage.new(new_user)
             storage.save()
