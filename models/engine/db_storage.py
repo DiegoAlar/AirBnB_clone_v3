@@ -87,3 +87,23 @@ class DBStorage:
     def count(self, cls=None):
         """ Counts the number of bjects """
         return len(self.all(cls))
+
+
+class TestCountAndGet(unittest.TestCase):
+    """ test for count and get methods for db storage """
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """ test count for db storage """
+        x = DBStorage.count(State)
+        state = State(name="Antioquia")
+        state.save()
+        y = DBStorage.count(State)
+        self.assertEqual(x + 1, y)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """ test get method file storage """
+        satate = State(name="Neiva")
+        state.save()
+        neiva = DBStorage.get(State, state.id)
+        self.assertEqual(state.id, neiva.id)
