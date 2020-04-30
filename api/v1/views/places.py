@@ -63,7 +63,6 @@ def places_routes(place_id=None):
 def places_routes2(city_id=None):
     """ Places_routes """
     objs_city = storage.all('City')
-    objs_places = storage.all('Places')
     objs_users = storage.all('User')
     all_places = []
     if city_id:
