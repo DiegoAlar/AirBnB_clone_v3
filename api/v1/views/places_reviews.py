@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ Places reviews """
-from os import getenv
 from flask import Flask, jsonify, Blueprint, make_response, request, abort
 from models import storage
 from api.v1.views import app_views
@@ -41,6 +40,7 @@ def places_reviews(place_id=None):
                 abort(404)
             if 'text' not in data.keys():
                 return jsonify({"error": "Missing text"}), 400
+            data['place_id'] = place_id
             new_review = Review(**data)
             storage.new(new_review)
             storage.save()
