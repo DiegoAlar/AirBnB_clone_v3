@@ -54,7 +54,7 @@ def places_reviews2(review_id=None):
     if review_id:
         key_rev = "Review." + review_id
         rev_obj = all_revs.get(key_rev)
-        if review_id is None:
+        if rev_obj is None:
             abort(404)
         if request.method == 'GET':
             return jsonify(rev_obj.to_dict())
