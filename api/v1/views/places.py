@@ -30,10 +30,11 @@ def places_routes(place_id=None):
             return make_response(jsonify({}), 200)
         elif request.method == 'PUT':
             try:
-                request.get_json()
+                data = request.get_json()
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
-            data = request.get_json()
+            if data is None:
+                return jsonify({"error": "Not a JSON"}), 400
             attrs = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
             for k, v in data.items():
                 if k not in attrs:
@@ -59,10 +60,11 @@ def places_routes2(city_id=None):
             return jsonify(all_places)
         elif request.method == 'POST':
             try:
-                request.get_json()
+                data = request.get_json()
             except Exception:
                 return jsonify({"error": "Not a JSON"}), 400
-            data = request.get_json()
+            if data is None:
+                return jsonify({"error": "Not a JSON"}), 400
             if 'user_id' not in data.keys():
                 return jsonify({"error": "Missing user_id"}), 400
             key_usr = "User." + data['user_id']
