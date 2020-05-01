@@ -16,34 +16,35 @@ def places_reviews(place_id=None):
     """ Places_reviews routes """
     objs_places = storage.all('Place')
     all_revs = []
-    key_place = "Place." + place_id
-    obj_place = objs_places.get(key_place)
-    if obj_place is None:
-        abort(404)
-    if request.method == 'GET':
-        for rev in obj_place.reviews:
-            all_revs.append(rev.to_dict())
-        return jsonify(all_revs)
-    elif request.method == 'POST':
-        try:
-            data = request.get_json()
-        except Exception:
-            return jsonify({"error": "Not a JSON"}), 400
-        if data is None:
-            return jsonify({"error": "Not a JSON"}), 400
-        if 'user_id' not in data.keys():
-            return jsonify({"error": "Missing user_id"}), 400
-        key_usr = "User." + data['user_id']
-        usr_objs = storage.all('User')
-        usr_obj = usr_objs.get(key_usr)
-        if usr_obj is None:
+    if place_id:
+        key_place = "Place." + place_id
+        obj_place = objs_places.get(key_place)
+        if obj_place is None:
             abort(404)
-        if 'text' not in data.keys():
-            return jsonify({"error": "Missing text"}), 400
-        new_review = Review(**data)
-        storage.new(new_review)
-        storage.save()
-        return make_response(jsonify(new_review.to_dict()), 201)
+        if request.method == 'GET':
+            for rev in obj_place.reviews:
+                all_revs.append(rev.to_dict())
+            return jsonify(all_revs)
+        elif request.method == 'POST':
+            try:
+                data = request.get_json()
+            except Exception:
+                return jsonify({"error": "Not a JSON"}), 400
+            if data is None:
+                return jsonify({"error": "Not a JSON"}), 400
+            if 'user_id' not in data.keys():
+                return jsonify({"error": "Missing user_id"}), 400
+            key_usr = "User." + data['user_id']
+            usr_objs = storage.all('User')
+            usr_obj = usr_objs.get(key_usr)
+            if usr_obj is None:
+                abort(404)
+            if 'text' not in data.keys():
+                return jsonify({"error": "Missing text"}), 400
+            new_review = Review(**data)
+            storage.new(new_review)
+            storage.save()
+            return make_response(jsonify(new_review.to_dict()), 201)
 
 
 @app_views.route('reviews/<review_id>', strict_slashes=False, methods=m2)
