@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Amenity """
+""" Places reviews """
 from os import getenv
 from flask import Flask, jsonify, Blueprint, make_response, request, abort
 from models import storage
@@ -50,26 +50,27 @@ def places_reviews(place_id=None):
 def places_reviews2(review_id=None):
     """ Places_reviews_routes """
     all_revs = storage.all('Review')
-    key_rev = "Review." + review_id
-    rev_obj = all_revs.get(key_rev)
-    if review_id is None:
-        abort(404)
-    if request.method == 'GET':
-        return jsonify(rev_obj.to_dict())
-    elif request.method == 'DELETE':
-        storage.delete(rev_obj)
-        storage.save()
-        return make_response(jsonify({}), 200)
-    elif request.method == 'PUT':
-        try:
-            data = request.get_json()
-        except Exception:
-            return jsonify({"error": "Not a JSON"}), 400
-        if data is None:
-            return jsonify({"error": "Not a JSON"}), 400
-        attrs = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-        for k, v in data.items():
-            if k not in attrs:
-                setattr(rev_obj, k, v)
-        storage.save()
-        return make_response(jsonify(rev_obj.to_dict()), 200)
+    if review_id:
+        key_rev = "Review." + review_id
+        rev_obj = all_revs.get(key_rev)
+        if review_id is None:
+            abort(404)
+        if request.method == 'GET':
+            return jsonify(rev_obj.to_dict())
+        elif request.method == 'DELETE':
+            storage.delete(rev_obj)
+            storage.save()
+            return make_response(jsonify({}), 200)
+        elif request.method == 'PUT':
+            try:
+                data = request.get_json()
+            except Exception:
+                return jsonify({"error": "Not a JSON"}), 400
+            if data is None:
+                return jsonify({"error": "Not a JSON"}), 400
+            attrs = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
+            for k, v in data.items():
+                if k not in attrs:
+                    setattr(rev_obj, k, v)
+            storage.save()
+            return make_response(jsonify(rev_obj.to_dict()), 200)
